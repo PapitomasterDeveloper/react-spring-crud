@@ -19,5 +19,18 @@ public class CourseResource {
 	public List<Course> getAllCourses(@PathVariable String username) {
 		return courseManagementService.findAll();
 	}
-	
-}
+
+	@DeleteMapping("/instructors/{username}/courses/{id}")
+	public ResponseEntity<Void> deleteCourse(@PathVariable String username, @PathVariable long id){
+
+		Course course = courseManagementService.deleteById(id);
+
+		if(course != null){
+			// If request is successful, return no content back
+			return ResponseEntity.noContent().build();
+		}
+
+		// If delete failed, return error - resourc not found
+		return ResponseEntity.notFound().build();
+
+	}
