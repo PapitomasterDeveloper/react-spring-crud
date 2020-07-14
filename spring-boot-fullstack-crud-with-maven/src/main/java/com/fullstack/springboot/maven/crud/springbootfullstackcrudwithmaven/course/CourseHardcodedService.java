@@ -18,9 +18,22 @@ public class CourseHardcodedService {
 		courses.add(new Course(++idCounter, "CourseSeries", "Microservices with Spring"));
 		courses.add(new Course(++idCounter, "CourseSeries", "SpringBoot with Docker and Kubernates"));
 	}
-	
+
 	public List<Course> findAll(){
 		return courses;
 	}
-	
+
+	public Course deletebyId(long id){
+		Course course = findById(id);
+
+		if(course == null){
+			return null;
+		}
+
+		if(courses.remove(course)){
+			return course;
+		}
+
+		return null;
+	}
 }
