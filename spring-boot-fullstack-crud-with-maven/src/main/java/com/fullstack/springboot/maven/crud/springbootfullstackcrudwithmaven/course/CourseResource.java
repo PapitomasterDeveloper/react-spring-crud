@@ -39,4 +39,24 @@ public class CourseResource {
 	public Course getCourse(@PathVariable String username, @PathVariable long id){
 		return courseManagementService.findById(id);
 	}
+
+	@PuMapping("/instructors/{username}/courses/{id}")
+	public ResponseEntity<Course> updateCourse(@PathVariable String username, @PathVariable long id, @RequestBody Course course){
+		Course courseUpdated = courseManagementService.save(course);
+		return new ResponseEntity<Course>(courseUpdated, HttpStatus.OK);
+	}
+
+	@PostMapping("/instructors/{username}/courses")
+  	public ResponseEntity<Void> createCourse(@PathVariable String username, @RequestBody Course course) {
+
+    	Course createdCourse = courseManagementService.save(course);
+
+    	// Location
+    	// Get current resource url
+    	/// {id}
+    	URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(createdCourse.getId())
+        .toUri();
+
+    	return ResponseEntity.created(uri).build();
+  	}
 }
